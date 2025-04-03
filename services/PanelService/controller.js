@@ -1,4 +1,4 @@
-import {User} from "../../models.js";
+import {User, Wallet} from "../../models.js";
 
 
 export const createNewPanel = [
@@ -21,7 +21,7 @@ async function sendpass(req , res) {
             const response = await User.create({
                 email : email ,
                 password : password
-            })
+            } )
             return res.send({success : true , date : response})
         }catch (e) {
             console.log(e)
@@ -36,7 +36,7 @@ async function sendpass(req , res) {
 
 
 async function allP(req , res){
-    const user = await User.findAll()
+    const user = await User.findAll({include : Wallet})
     return res.status(200).send({
         success : true ,
         date : user

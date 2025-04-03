@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import bcrypt from "bcrypt"
-import {User} from "../../models.js";
+import {User, Wallet} from "../../models.js";
 
 async function hashPassword(user){
   const salt = await bcrypt.genSalt(10)
@@ -19,9 +19,12 @@ export default function(sequelize ){
       type: DataTypes.STRING
     },
   })
-  User.belongsTo(wallet ,  {through: "user_id"});
-
-
+  User.hasOne(wallet, {
+    foreignKey: {
+      name: 'user_id',
+    }
+  });
+  wallet.belongsTo(User);
 
   return wallet
 
