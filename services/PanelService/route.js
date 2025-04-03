@@ -10,6 +10,9 @@ const panel = express.Router();
 
 
 
+
+
+
 const newPanel = async (req , res) => {
 
     console.log(req.body)
@@ -78,9 +81,13 @@ const isAdminMiddleware = async (req , res , next) =>{
 
 
 
+
 panel.post('/new-panel', isAdminMiddleware , newPanel);
 
 panel.get('/list', allPanel)
+
+
+
 
 export { panel }
 
