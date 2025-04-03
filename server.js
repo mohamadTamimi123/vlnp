@@ -17,7 +17,7 @@ import {sequelize} from "./models.js";
 async function main() {
     try {
 
-        await sequelize.sync()
+        await sequelize.sync({force:true})
 
         app.listen(5001, () => {
             console.log(`Example app listening on port 5001`);
