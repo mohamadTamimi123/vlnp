@@ -3,7 +3,7 @@ import express from 'express';
 import cors from "cors";
 import bodyParser from "body-parser";
 import passport from 'passport';
-import {route} from "./services/UserService/route.js";
+import {authRo} from "./services/UserService/route.js";
 import {panel} from "./services/PanelService/route.js";
 import {wallet} from "./services/WalletService/route.js";
 import {admin} from "./services/AdminService/route.js";
@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 
 //
 app.use('/api/v1/admin' , admin)
-
+app.use('/api/v1/auth' ,  authRo)
 
 app.use('/api/v1/panel' , panel)
 app.use('/api/v1/wallet' , wallet)

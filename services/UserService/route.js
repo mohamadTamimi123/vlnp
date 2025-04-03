@@ -5,12 +5,12 @@ import {userLogin} from "./controller.js";
 
 
 
-const route = express.Router();
+const authRo = express.Router();
 
-route.post('/auth/login', userLogin)
+authRo.post('/login', userLogin)
 
 
 
-export { route }
+export { authRo }
 
 
