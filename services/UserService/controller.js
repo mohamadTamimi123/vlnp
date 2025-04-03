@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 
 
 export const userLogin = [
-    // passport.authenticate('login', {session: false}),
     returnAuthInfo
 ]
 

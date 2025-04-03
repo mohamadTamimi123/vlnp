@@ -4,7 +4,7 @@ import express from "express";
 import {allPanel, createNewPanel} from "./controller.js";
 import {header} from "express-validator";
 import jwt from "jsonwebtoken";
-import {Admin, sequelize, User} from "../../models.js";
+import {Admin, sequelize, User, Wallet} from "../../models.js";
 
 const panel = express.Router();
 
@@ -33,7 +33,10 @@ const newPanel = async (req , res) => {
 
 
         // todo
-        // deposit wallet
+        await Wallet.create({
+            user_id : user.id ,
+            wallet : req.body.wallet
+        })
 
         await t.commit();
     } catch (error) {
@@ -81,10 +84,19 @@ const isAdminMiddleware = async (req , res , next) =>{
 
 
 
+const deletePanel = async (req , res) =>{
+   return res.status(200).json({
+       success : false
+   })
+}
+
+
 
 panel.post('/new-panel', isAdminMiddleware , newPanel);
 
 panel.get('/list', allPanel)
+
+panel.delete('/delete/:id', deletePanel)
 
 
 
