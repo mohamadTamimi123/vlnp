@@ -7,6 +7,7 @@ import {authRo} from "./services/UserService/route.js";
 import {panel} from "./services/PanelService/route.js";
 import {wallet} from "./services/WalletService/route.js";
 import {admin} from "./services/AdminService/route.js";
+import {seed} from "./develop/seedRoute.js";
 
 
 
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 });
 
 //
+app.use('/custom-seeder' , seed)
 app.use('/api/v1/admin' , admin)
 app.use('/api/v1/auth' ,  authRo)
 

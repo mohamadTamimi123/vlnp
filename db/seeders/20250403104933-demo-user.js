@@ -17,8 +17,7 @@ module.exports = {
     await queryInterface.bulkInsert('Admins', [{
       email: 'admin',
       password: "admin" ,
-      status : true ,
-      crea
+      status : 1 ,
     }], {});
 
   },
