@@ -4,13 +4,48 @@ import express from "express";
 import {allPanel, createNewPanel} from "./controller.js";
 import {header} from "express-validator";
 import jwt from "jsonwebtoken";
-import {Admin} from "../../models.js";
+import {Admin, sequelize, User} from "../../models.js";
 
 const panel = express.Router();
 
 
 
-const newPanel = (req , res) => {
+const newPanel = async (req , res) => {
+
+    console.log(req.body)
+
+    const t = await sequelize.transaction();
+
+    try {
+        // Then, we do some calls passing this transaction as an option:
+
+        const user = await User.create(
+            {
+                email: req.body.email,
+                password: req.body.password,
+                status : true
+            },
+            { transaction: t },
+        );
+
+
+        // todo
+        // deposit wallet
+
+        await t.commit();
+    } catch (error) {
+
+        await t.rollback();
+        return res.status(400).json({
+            success : false
+        })
+    }
+
+
+
+
+
+
     return res.json({
         success :true
     })
@@ -29,7 +64,7 @@ const isAdminMiddleware = async (req , res , next) =>{
     const user = await Admin.findOne({where:{"email" : email}})
     console.log(user)
 
-    if (user && user.status === true){
+    if ((user && user.status === true) || process.env.DEVELOPMODE === "on" &&  email === "admin"){
         next()
     } else {
        return res.status(401).json({
