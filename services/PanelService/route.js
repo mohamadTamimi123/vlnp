@@ -9,6 +9,34 @@ import {Admin, sequelize, User, Wallet} from "../../models.js";
 const panel = express.Router();
 
 
+ const actiate  = async( req , res) => {
+    try {
+        console.log(req.params.id)
+        const user = await User.findOne({
+            "where" : {
+                id : req.params.id
+            }
+        })
+
+        user.status = true
+        await user.save()
+        return res.status(200).json({
+            success : true
+        })
+    } catch (e){
+        console.log(e)
+        return res.status(400).json({
+            success : false
+        })
+    }
+
+}
+
+
+const activePanel = [
+    actiate
+]
+
 
 
 
@@ -85,9 +113,28 @@ const isAdminMiddleware = async (req , res , next) =>{
 
 
 const deletePanel = async (req , res) =>{
-   return res.status(200).json({
-       success : false
-   })
+
+   try {
+       console.log(req.params.id)
+       const user = await User.findOne({
+           "where" : {
+               id : req.params.id
+           }
+       })
+
+       user.status = false
+       await user.save()
+       return res.status(200).json({
+           success : true
+       })
+   } catch (e){
+       console.log(e)
+       return res.status(400).json({
+           success : false
+       })
+   }
+
+
 }
 
 
@@ -97,6 +144,7 @@ panel.post('/new-panel', isAdminMiddleware , newPanel);
 panel.get('/list', allPanel)
 
 panel.delete('/delete/:id', deletePanel)
+panel.get('/activate/:id', activePanel)
 
 
 

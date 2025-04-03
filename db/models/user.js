@@ -17,6 +17,9 @@ export default function(sequelize ){
     password: {
       type: DataTypes.STRING
     },
+    status : {
+     type : DataTypes.BOOLEAN
+    }
   } , {
 
   })
