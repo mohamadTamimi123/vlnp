@@ -17,4 +17,4 @@ export { sequelize }
 export { User }
 export { Wallet }
 export { Transaction }
-export {Admin}
+export { Admin }

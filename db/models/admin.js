@@ -8,7 +8,7 @@ async function hashPassword(user){
 
 
 export default function(sequelize ){
-  const User =  sequelize.define('Users' ,{
+  const User =  sequelize.define('Admins' ,{
     email: {
       type: DataTypes.STRING
     },

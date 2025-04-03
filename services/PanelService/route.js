@@ -21,7 +21,11 @@ const isAdminMiddleware = (req , res , next) =>{
 
     const head = req.headers.token
     var decoded = jwt.verify(head, String(process.env.JWT_SECRET));
-    console.log(decoded)
+    const {id , email} = (decoded.user)
+
+
+    console.log(id)
+    console.log(email)
     next()
 }
 

@@ -34,7 +34,7 @@ admin.post('/adminvlnplogin',  [
         const token = jwt.sign(payload,String(process.env.JWT_SECRET) )
 
 
-        res.status(200).json({
+        return res.status(200).json({
             success : true ,data : token
         })
     }
