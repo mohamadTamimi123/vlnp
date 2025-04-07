@@ -8,6 +8,7 @@ import {panel} from "./services/PanelService/route.js";
 import {wallet} from "./services/WalletService/route.js";
 import {admin} from "./services/AdminService/route.js";
 import {seed} from "./develop/seedRoute.js";
+import {configs} from "./services/ConfigsService/route.js";
 
 
 
@@ -32,13 +33,13 @@ app.get('/', (req, res) => {
 });
 
 //
-app.use('/custom-seeder' , seed)
+app.use("/custom-seeder" , seed)
 app.use('/api/v1/admin' , admin)
 app.use('/api/v1/auth' ,  authRo)
 
 app.use('/api/v1/panel' , panel)
 app.use('/api/v1/wallet' , wallet)
-// app.use('/api/v1' , ticketRoute)
+app.use("/api/v1/configs" , configs)
 // app.use('/api/v1' , googleRoute)
 
 export default app;

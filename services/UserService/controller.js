@@ -13,12 +13,16 @@ async function returnAuthInfo(req , res){
 
     console.log(req.body)
     if (!email || !password){
+        console.log("bug")
         res.status(401).send("unauthorized")
         return
     }
 
     const user =  await  User.findOne({where : { email  : req.body.email}})
 
+
+
+    console.log(user)
 
     if (!user){
         res.status(401).send("unauthorized email")

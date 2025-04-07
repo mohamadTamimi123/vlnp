@@ -6,6 +6,8 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.1.2",
+    "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
@@ -22,8 +24,10 @@
     "passport": "^0.7.0",
     "pg": "^8.14.1",
     "pg-hstore": "^2.3.4",
+    "postcss": "^8.5.3",
     "sequelize": "^6.37.7",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "tailwindcss": "^4.1.2"
   },
   "devDependencies": {
     "sequelize-cli": "^6.6.2"

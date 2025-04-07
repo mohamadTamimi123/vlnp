@@ -5,6 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51ec9d63-765d-4c08-b77d-33a0f0536254" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/utils/api/addNewConfig_API.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/ConfigsService/controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/ConfigsService/controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/ConfigsService/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/ConfigsService/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/PanelService/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/PanelService/route.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/UserService/controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/UserService/controller.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -21,12 +30,12 @@
     &quot;assignee&quot;: &quot;mohamadTamimi123&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/mohamadTamimi123/vlnp.git",
-    "accountId": "205af62d-eb5c-4386-a189-2bd3134b6bed"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://mohamadTamimi123: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@github.com/mohamadTamimi123/vlnp.git&quot;,
+    &quot;accountId&quot;: &quot;205af62d-eb5c-4386-a189-2bd3134b6bed&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -83,6 +92,9 @@
       <updated>1743575756195</updated>
       <workItem from="1743575757237" duration="18478000" />
       <workItem from="1743675155438" duration="6361000" />
+      <workItem from="1743704929455" duration="9147000" />
+      <workItem from="1743913655452" duration="5687000" />
+      <workItem from="1743961220500" duration="3414000" />
     </task>
     <servers />
   </component>

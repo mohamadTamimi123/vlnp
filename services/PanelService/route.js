@@ -32,14 +32,9 @@ const panel = express.Router();
 
 }
 
-
 const activePanel = [
     actiate
 ]
-
-
-
-
 
 const newPanel = async (req , res) => {
 
@@ -85,8 +80,6 @@ const newPanel = async (req , res) => {
     })
 }
 
-
-
 const isAdminMiddleware = async (req , res , next) =>{
 
     const head = req.headers.token
@@ -109,7 +102,6 @@ const isAdminMiddleware = async (req , res , next) =>{
     console.log(email)
 
 }
-
 
 
 const deletePanel = async (req , res) =>{

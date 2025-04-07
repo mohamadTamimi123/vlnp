@@ -1,14 +1,15 @@
 
 import express from "express";
+import {createNewConfig} from "./controller.js";
 
 
 
 const configs = express.Router();
 
-configs.post('/new-panel', createNewConfig)
+configs.post('/new-config', createNewConfig)
 
-panel.get('/list', allPanel)
 
-export { panel }
+
+export { configs }
 
 

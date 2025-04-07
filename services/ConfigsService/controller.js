@@ -10,7 +10,8 @@ async function newConfig(){
 
     // #todo
     // record in databbase
-    // create Config
+    // create Config API
+
     // manage wallet
 
 }
