@@ -1,4 +1,4 @@
-import {User} from "../../models.js";
+import {User, Wallet} from "../../models.js";
 import jwt from "jsonwebtoken";
 
 
@@ -18,7 +18,7 @@ async function returnAuthInfo(req , res){
         return
     }
 
-    const user =  await  User.findOne({where : { email  : req.body.email}})
+    const user =  await  User.findOne({where : { email  : req.body.email} , include : Wallet} , )
 
 
 
