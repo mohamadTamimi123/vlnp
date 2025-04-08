@@ -36,7 +36,7 @@ async function returnAuthInfo(req , res){
 
 
         res.status(200).json({
-            success : true ,data : token
+            success : true ,data : token , user : user
         })
     }else {
         res.status(401).send("unauthorized")
