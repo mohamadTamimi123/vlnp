@@ -39,7 +39,7 @@ async function allP(req , res){
     const user = await User.findAll({include : Wallet})
     return res.status(200).send({
         success : true ,
-        date : user
+        data : user
     })
 
 }
