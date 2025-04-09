@@ -11,16 +11,18 @@ async function returnAuthInfo(req , res){
 
     const { email , password} = req.body
 
-    console.log(req.body)
-    if (!email || !password){
-        console.log("bug")
-        res.status(401).send("unauthorized")
-        return
+
+
+
+    const user =  await  User.findOne({where : { email  : req.body.email} , include : Wallet})
+
+
+    if (!email){
+        return res.status(400).json({
+            success : false ,
+            error : "bad request"
+        })
     }
-
-    const user =  await  User.findOne({where : { email  : req.body.email} , include : Wallet} , )
-
-
 
     console.log(user)
 
@@ -28,9 +30,9 @@ async function returnAuthInfo(req , res){
         res.status(401).send("unauthorized email")
         return
     } else if (user.password === req.body.password){
-        const {id, username} = user
+        const {id, email} = user
         const payload = {
-            user : {id , username}
+            user : {id , email}
         }
         const token = jwt.sign(payload,String(process.env.JWT_SECRET) )
 
