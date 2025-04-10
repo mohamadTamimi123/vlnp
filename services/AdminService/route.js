@@ -4,6 +4,7 @@ import {Admin, User} from "../../models.js";
 import jwt from "jsonwebtoken";
 import 'dotenv/config'
 import {isAdminMiddleware} from "../PanelService/route.js";
+import bcrypt from "bcrypt";
 
 
 
@@ -78,7 +79,7 @@ async  function chP(req , res){
     const user_id = req.body.user_id
     const newPassword = req.body.new_password
 
-    if (!newPassword || !newPassword){
+    if (!newPassword || !user_id){
         return res.status(400).json({
             success : false
         })
@@ -94,7 +95,10 @@ async  function chP(req , res){
 
 
     try {
-        user.password = newPassword
+        const salt = bcrypt.genSaltSync(10);
+        const passwordHash = bcrypt.hashSync(newPassword, salt)
+
+        user.password = passwordHash
         await user.save()
 
 

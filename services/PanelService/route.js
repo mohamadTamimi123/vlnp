@@ -54,8 +54,7 @@ const newPanel = async (req , res) => {
             {
                 email: req.body.email,
                 password: password ,
-
-                status : req.body.password
+                status : true
             },
             { transaction: t },
         );
@@ -150,7 +149,7 @@ const deletePanel = async (req , res) =>{
 
 panel.post('/new-panel', isAdminMiddleware , newPanel);
 
-panel.get('/list', allPanel)
+panel.get('/list' ,isAdminMiddleware , allPanel)
 
 panel.delete('/delete/:id', deletePanel)
 panel.get('/activate/:id', activePanel)
