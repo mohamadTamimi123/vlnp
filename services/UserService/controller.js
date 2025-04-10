@@ -1,5 +1,6 @@
 import {User, Wallet} from "../../models.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 
 export const userLogin = [
@@ -24,12 +25,17 @@ async function returnAuthInfo(req , res){
         })
     }
 
-    console.log(user)
+
+    console.log(user?.password)
+
+    // const validPassw = false // true
+    const validPassw = bcrypt.compareSync(req.body.password, user?.password); // true
+
 
     if (!user){
         res.status(401).send("unauthorized email")
         return
-    } else if (user.password === req.body.password){
+    } else if (validPassw){
         const {id, email} = user
         const payload = {
             user : {id , email}

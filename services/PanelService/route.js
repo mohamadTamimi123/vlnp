@@ -5,6 +5,7 @@ import {allPanel, createNewPanel} from "./controller.js";
 import {header} from "express-validator";
 import jwt from "jsonwebtoken";
 import {Admin, sequelize, User, Wallet} from "../../models.js";
+import bcrypt from "bcrypt";
 
 const panel = express.Router();
 
@@ -43,16 +44,25 @@ const newPanel = async (req , res) => {
     const t = await sequelize.transaction();
 
     try {
-        // Then, we do some calls passing this transaction as an option:
+        const salt = bcrypt.genSaltSync(10);
+        const password = bcrypt.hashSync(req.body.password, salt)
+
+
+        console.log(salt)
 
         const user = await User.create(
             {
                 email: req.body.email,
-                password: req.body.password,
-                status : true
+                password: password ,
+
+                status : req.body.password
             },
             { transaction: t },
         );
+
+
+
+        console.log(user)
 
 
         // todo
@@ -64,6 +74,7 @@ const newPanel = async (req , res) => {
         await t.commit();
     } catch (error) {
 
+        console.log(error)
         await t.rollback();
         return res.status(400).json({
             success : false
@@ -83,6 +94,12 @@ const newPanel = async (req , res) => {
 export const isAdminMiddleware = async (req , res , next) =>{
 
     const head = req.headers.token
+
+    if (!head || !head.length) {
+        return res.status(401).json({
+            success : false
+        })
+    }
     var decoded = jwt.verify(head, String(process.env.JWT_SECRET));
     const {id , email} = (decoded.user)
 
