@@ -1,8 +1,10 @@
 import express from "express";
 import {body, check, validationResult} from "express-validator";
-import {Admin} from "../../models.js";
+import {Admin, User} from "../../models.js";
 import jwt from "jsonwebtoken";
 import 'dotenv/config'
+import {isAdminMiddleware} from "../PanelService/route.js";
+
 
 
 const admin = express.Router();
@@ -63,6 +65,54 @@ admin.post('/adminvlnplogin',  [
         })
     }
 });
+
+
+
+export const changeUserPassword = [
+    chP
+
+]
+
+
+async  function chP(req , res){
+    const user_id = req.body.user_id
+    const newPassword = req.body.new_password
+
+    if (!newPassword || !newPassword){
+        return res.status(400).json({
+            success : false
+        })
+    }
+
+    const user = await User.findOne({where : {id : user_id}})
+
+    if (!user){
+        return res.status(404).json({
+            success : false
+        })
+    }
+
+
+    try {
+        user.password = newPassword
+        await user.save()
+
+
+        return res.status(200).json({
+            success : true
+        })
+    }catch (e) {
+        return res.status(400).json({
+            success : false
+        })
+    }
+
+
+}
+
+
+admin.post('/change-password' , isAdminMiddleware , changeUserPassword)
+
 
 
 

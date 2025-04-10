@@ -4,8 +4,6 @@ export  const depositAccount = [
     depos
 ]
 
-
-
 async function depos(req , res){
 
     const user_id = req.body.user_id
@@ -19,7 +17,13 @@ async function depos(req , res){
         })
     }
 
-    w.wallet = wallet
+    if (req.body.increment == "on"){
+        w.wallet = (parseFloat(w.wallet) || 0) + (parseFloat(wallet) || 0);
+    }else {
+        w.wallet = wallet
+    }
+
+
 
     w.save()
 

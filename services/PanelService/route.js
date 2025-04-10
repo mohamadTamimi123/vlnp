@@ -80,7 +80,7 @@ const newPanel = async (req , res) => {
     })
 }
 
-const isAdminMiddleware = async (req , res , next) =>{
+export const isAdminMiddleware = async (req , res , next) =>{
 
     const head = req.headers.token
     var decoded = jwt.verify(head, String(process.env.JWT_SECRET));
