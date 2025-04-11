@@ -19,8 +19,8 @@ async function main() {
 
         await sequelize.sync({force:false})
 
-        app.listen(5002, () => {
-            console.log(`Example app listening on port 5002`);
+        app.listen(5001, () => {
+            console.log(`Example app listening on port 5001`);
         });
     } catch (err) {
         console.log(err);

@@ -2,7 +2,7 @@ import axios from "axios";
 import * as https from "node:https";
 import qs from "qs"
 import jwt from "jsonwebtoken";
-import {Admin, User, Wallet} from "../../models.js";
+import {Admin, Config, User, Wallet} from "../../models.js";
 import {callToDeveloper} from "../../mailHandller.js";
 import {userHasEarlyConfig} from "../../utils/userHasEaarlyConfig.js";
 
@@ -13,6 +13,9 @@ export const createNewConfig = [
 ]
 
 async function newConfig(req , res){
+
+
+
 
     const userEmail = req.body.email
     const totalGB = req.body.totalGB
@@ -33,6 +36,14 @@ async function newConfig(req , res){
             success : false
         })
     }
+
+
+
+
+
+
+
+
     var decoded = jwt.verify(head, String(process.env.JWT_SECRET));
 
 
@@ -59,7 +70,10 @@ async function newConfig(req , res){
         })
     }
 
+
+
     const token = await getToken()
+    // const token = null
 
 
 
@@ -67,20 +81,20 @@ async function newConfig(req , res){
     if (!token){
 
         try {
-            callToDeveloper()
+            // callToDeveloper()
         } catch (error) {
-            callToDeveloper(error.message); // ارسال ایمیل خطا
+            // callToDeveloper(error.message); // ارسال ایمیل خطا
         }
 
 
-        return req.status(503).json({
+        return res.status(401).json({
             success : false
         })
     }
 
 
 
-    userHasEarlyConfig(userEmail , token)
+    // userHasEarlyConfig(userEmail , token)
 
 
 
@@ -137,7 +151,7 @@ async function newConfig(req , res){
                             follow : "update_config"
                         })
                     }else {
-                        callToDeveloper(response)
+                        // callToDeveloper(response)
                         return res.status(400).json({
                             success : false ,
                             data: response.data["msg"] ,
@@ -147,6 +161,14 @@ async function newConfig(req , res){
 
 
                 } else {
+
+
+
+                     Config.create({
+                        user_id : usr.id ,
+                        email : userEmail ,
+                        uuid : randomUUID
+                    })
 
                     wallet.wallet = wallet.wallet - (perGig * totalGB)
                     wallet.save()
@@ -210,7 +232,8 @@ async function getToken(){
         'password':  process.env.PANEL_PASSWORD,
     });
 
-
+    // console.log(data1);
+    // return null
 
 
 
@@ -225,13 +248,21 @@ async function getToken(){
         },
         data : data1
     };
+    console.log("87897897987897897987897987987897/9")
+
+    const response = await axios.request(config1 , {timeout: 10000}); // ارسال درخواست
+    // console.log("87897897987897897987897987987897/9")
+    console.log(response)
+
     try {
         const response = await axios.request(config1); // ارسال درخواست
+        console.log(response)
 
 
         token = response.headers['set-cookie'][0];
     } catch (error) {
         console.error('Error fetching token:', error);
+
         return null;
     }
 
