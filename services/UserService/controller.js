@@ -46,7 +46,7 @@ async function returnAuthInfo(req , res){
             }
             const token = jwt.sign(payload,String(process.env.JWT_SECRET) )
 
-            const configs = await Config.findAll({where : {user_id : user.id}})
+            const configs = await Config.findAll({where : {user_id : id}})
             return res.status(200).json({
                 success : true ,data : token , user : user , configs : configs
             })
