@@ -130,10 +130,22 @@ async function newConfig(req , res){
             .then((response) => {
 
                 if (!response.data["success"]){
-                    return res.status(400).json({
-                        success : false ,
-                        data: response.data["msg"]
-                    })
+                    if ( checkDuplicateEmailError(response.data["msg"]) ){
+                        return res.status(400).json({
+                            success : false ,
+                            data: response.data["msg"] ,
+                            follow : "update_config"
+                        })
+                    }else {
+                        callToDeveloper(response)
+                        return res.status(400).json({
+                            success : false ,
+                            data: response.data["msg"] ,
+                            follow : "server_error"
+                        })
+                    }
+
+
                 } else {
 
                     wallet.wallet = wallet.wallet - (perGig * totalGB)
@@ -236,4 +248,9 @@ function generateRandomUUID() {
     const randomHex = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 
     return `${randomHex()}${randomHex()}-${randomHex()}-${randomHex()}-${randomHex()}-${randomHex()}${randomHex()}${randomHex()}`;
+}
+
+
+function checkDuplicateEmailError(text) {
+    return text.startsWith("Something went wrong! Failed: Duplicate email:");
 }
