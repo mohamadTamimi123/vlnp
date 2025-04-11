@@ -24,19 +24,12 @@ async function returnAuthInfo(req , res){
     const user =  await  User.findOne({where : { email  : req.body.email} , include : Wallet})
 
 
-    if (!email){
-        return res.status(400).json({
-            success : false ,
-            error : "bad request"
-        })
-    }
-
 
     console.log(user?.password)
 
     // const validPassw = false // true
 
-    const configs = await Config.findAll({where : {user_id : user.id}})
+
 
     if (!user){
         res.status(401).send("unauthorized email")
@@ -53,7 +46,7 @@ async function returnAuthInfo(req , res){
             }
             const token = jwt.sign(payload,String(process.env.JWT_SECRET) )
 
-
+            const configs = await Config.findAll({where : {user_id : user.id}})
             return res.status(200).json({
                 success : true ,data : token , user : user , configs : configs
             })
