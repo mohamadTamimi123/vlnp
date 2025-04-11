@@ -1,4 +1,4 @@
-import {User, Wallet} from "../../models.js";
+import {Config, User, Wallet} from "../../models.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
@@ -36,7 +36,7 @@ async function returnAuthInfo(req , res){
 
     // const validPassw = false // true
 
-
+    const configs = await Config.findAll({where : {user_id : user.id}})
 
     if (!user){
         res.status(401).send("unauthorized email")
@@ -55,7 +55,7 @@ async function returnAuthInfo(req , res){
 
 
             return res.status(200).json({
-                success : true ,data : token , user : user
+                success : true ,data : token , user : user , configs : configs
             })
         }
 
