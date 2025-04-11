@@ -3,8 +3,10 @@ import * as https from "node:https";
 import qs from "qs"
 import jwt from "jsonwebtoken";
 import {Admin, User, Wallet} from "../../models.js";
+import {callToDeveloper} from "../../mailHandller.js";
+import {userHasEarlyConfig} from "../../utils/userHasEaarlyConfig.js";
 
-const perGig = 1000
+const perGig = 1500
 
 export const createNewConfig = [
     newConfig
@@ -18,7 +20,13 @@ async function newConfig(req , res){
 
 
     const head = req.headers.token
-    console.log(head)
+
+
+
+
+
+
+    // validate user
 
     if (!head) {
         return res.status(401).json({
@@ -34,9 +42,7 @@ async function newConfig(req , res){
 
     const wallet = await Wallet.findOne({"where" : {user_id : id}})
 
-    console.log("*********")
-    console.log(usr)
-    console.log(wallet)
+
 
     if (!usr || !usr.status){
         return res.status(401).json({
@@ -48,7 +54,8 @@ async function newConfig(req , res){
     if (totalGB * perGig > wallet.wallet){
         return res.status(400).json({
             success : false ,
-            msg : "Your wallet balance is low."
+            data : "Your wallet balance is low.",
+            follow : "wallet"
         })
     }
 
@@ -58,10 +65,27 @@ async function newConfig(req , res){
 
 
     if (!token){
-        // return req.status(500)
+
+        try {
+            callToDeveloper()
+        } catch (error) {
+            callToDeveloper(error.message); // ارسال ایمیل خطا
+        }
+
+
+        return req.status(503).json({
+            success : false
+        })
     }
 
-    console.log(token)
+
+
+    userHasEarlyConfig(userEmail , token)
+
+
+
+
+
 
 
     const randomUUID = generateRandomUUID();

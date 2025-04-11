@@ -10,7 +10,13 @@ const configs = express.Router();
 
 
 
+const getConfigList = () => {
+
+}
+
+
 configs.post('/new-config' ,  createNewConfig)
+configs.get('/list' ,  getConfigList)
 
 
 
