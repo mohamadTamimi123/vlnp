@@ -226,7 +226,7 @@ async function isUserMiddleware(req , res , next){
 }
 
 
-async function getToken(){
+export async function getToken(){
     const data1 = qs.stringify({
         'username': process.env.PANEL_USER,
         'password':  process.env.PANEL_PASSWORD,
@@ -248,15 +248,14 @@ async function getToken(){
         },
         data : data1
     };
-    console.log("87897897987897897987897987987897/9")
+
 
     const response = await axios.request(config1 , {timeout: 10000}); // ارسال درخواست
-    // console.log("87897897987897897987897987987897/9")
-    console.log(response)
+
 
     try {
         const response = await axios.request(config1); // ارسال درخواست
-        console.log(response)
+
 
 
         token = response.headers['set-cookie'][0];
@@ -266,7 +265,7 @@ async function getToken(){
         return null;
     }
 
-    // console.log(token);
+
     return token;
 
 
@@ -274,7 +273,7 @@ async function getToken(){
 
 
 
-function generateRandomUUID() {
+export function generateRandomUUID() {
     // Generate random hexadecimal digits
     const randomHex = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 
@@ -282,6 +281,6 @@ function generateRandomUUID() {
 }
 
 
-function checkDuplicateEmailError(text) {
+export function checkDuplicateEmailError(text) {
     return text.startsWith("Something went wrong! Failed: Duplicate email:");
 }
