@@ -110,38 +110,45 @@ const createNewConfigFromPlans = async (req , res) => {
 
     const pl = req.body.plan
 
+    const state = {
+        amount : "" ,
+        totalGig: ""
+    }
+
+
+
+    console.log(pl)
+
     if (!pl){
         return res.status(400).json({
             success : false ,
             data : "bad request"
         })
     }
-
-    const rp = (pl) => {
-
-        switch (pl){
+    switch (pl){
 
 
-            case 'plan_two':
-                return  plans['plan_two']
+        case 'plan_two':
+            return  plans['plan_two']
 
-                break
+            break
 
-            case 'plan_tree':
-                return  plans['plan_tree']
+        case 'plan_tree':
+            return  plans['plan_tree']
 
-                break
+            break
 
-            case 'plan_four':
-                return  plans['plan_tree']
-                break
+        case 'plan_four':
+            return  plans['plan_tree']
+            break
 
-            default :
+        default :
 
-                return  plans['plan_one']
+            state.amount = 47000
+            state.totalGig = 30
 
 
-    }  }
+    }
 
 
     const head = req.headers.token
@@ -171,7 +178,7 @@ const createNewConfigFromPlans = async (req , res) => {
     }
 
 
-    if (rp.amount > wallet.wallet){
+    if (state.amount > wallet.wallet){
         return res.status(400).json({
             success : false ,
             data : "Your wallet balance is low.",
@@ -200,9 +207,29 @@ const createNewConfigFromPlans = async (req , res) => {
 
     const randomUUID = generateRandomUUID();
 
+
+
+
+
+
     const now = new Date();
     const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
     const timestamp = Math.floor(nextMonth.getTime() / 1000);
+
+
+
+
+
+// محاسبه تاریخ یک ماه بعد
+    const oneMonthLater = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
+
+// دریافت تایم استمپ به میلی‌ثانیه
+    const timestampMilliseconds = oneMonthLater.getTime();
+    console.log("تایم استمپ یک ماه بعد (میلی‌ثانیه):", timestampMilliseconds);
+
+// دریافت تایم استمپ به ثانیه
+    const timestampSeconds = Math.floor(timestampMilliseconds / 1000);
+    console.log("تایم استمپ یک ماه بعد (ثانیه):", timestampSeconds);
 
     // vless://95e4e7bb-7796-47e7-e8a7-f4055194f776@3.249.109.246:54579?type=tcp&security=none#hello
     let data = JSON.stringify({
@@ -214,8 +241,8 @@ const createNewConfigFromPlans = async (req , res) => {
                     "alterId": 0,
                     "email":userEmail,
                     "limitIp": 2,
-                    "totalGB": rp.totalGB * 1073741824,
-                    "expiryTime": timestamp,
+                    "totalGB": state.totalGig * 1073741824,
+                    "expiryTime": timestampMilliseconds,
                     "enable": true,
                     "tgId": "",
                     "subId": ""
@@ -223,6 +250,8 @@ const createNewConfigFromPlans = async (req , res) => {
             ]
         })
     })
+
+    console.log(data)
 
 
 
@@ -273,9 +302,9 @@ const createNewConfigFromPlans = async (req , res) => {
 
 
 
-                console.log(rp.amount )
+                console.log(state.amount )
 
-                wallet.wallet = wallet.wallet - rp.amount
+                wallet.wallet = wallet.wallet - state.amount
                 wallet.save()
 
                 return res.status(200).json({
