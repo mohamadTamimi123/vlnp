@@ -1,6 +1,6 @@
 import express from "express";
 import {depositAccount} from "./controller.js";
-import {Wallet} from "../../models.js";
+import {User, Wallet} from "../../models.js";
 import jwt from "jsonwebtoken";
 
 
@@ -34,18 +34,25 @@ const myList = async (req , res) => {
     var decoded = jwt.verify(head, String(process.env.JWT_SECRET));
     const {id , email} = (decoded.user)
 
-    console.log(id)
+
+    const us = await User.findOne({where : {id : id}})
+
+    if (!us){
+        return res.status(401).json({
+            success: false
+        })
+    }
+
+
+
+
+    const wallet = await Wallet.findOne({where : {user_id : id}})
+
 
     return res.status(200).json({
         success : true ,
-        id : id ,
-        email : email
+        data : wallet
     })
-
-
-
-
-    const wallet = await Wallet.findOne()
 
 }
 
