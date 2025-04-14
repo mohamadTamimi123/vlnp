@@ -192,6 +192,7 @@ async function newConfig(req , res){
 
 
 }
+
 async function isUserMiddleware(req , res , next){
 
     const head = req.headers.token
@@ -283,4 +284,46 @@ export function generateRandomUUID() {
 
 export function checkDuplicateEmailError(text) {
     return text.startsWith("Something went wrong! Failed: Duplicate email:");
+}
+
+
+
+export function getConfigByEmail(req , res){
+
+    const email =  req.body.email
+    const randomUUID =  req.body.uid
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: `${process.env.PANEL_URI}/panel/api/inbounds/getClientTraffics/${email}`,
+        headers: {
+            'Accept': 'application/json',
+            'Cookie': '3x-ui=MTc0NDUyNjEzMHxEWDhFQVFMX2dBQUJFQUVRQUFCMV80QUFBUVp6ZEhKcGJtY01EQUFLVEU5SFNVNWZWVk5GVWhoNExYVnBMMlJoZEdGaVlYTmxMMjF2WkdWc0xsVnpaWExfZ1FNQkFRUlZjMlZ5QWYtQ0FBRUVBUUpKWkFFRUFBRUlWWE5sY201aGJXVUJEQUFCQ0ZCaGMzTjNiM0prQVF3QUFRdE1iMmRwYmxObFkzSmxkQUVNQUFBQUh2LUNHd0VDQVFwM1owWjZRa1ZFUVZaUUFRcGFaa3RSV1hnNFdGZzBBQT09fHXdlbh9Lx6xPC_xc8-nMTpeCN2_hF32C69AN0SlS5nV'
+        }
+    };
+
+    axios.request(config)
+        .then((response) => {
+
+
+
+                if (response.data["success"]){
+
+                    return res.status(200).json({
+                        success : true,
+                        data : response.data,
+                        config : `vless://${randomUUID}@3.249.109.246:54579?type=tcp&security=none#${email}`
+                    })
+                }
+
+        })
+        .catch((error) => {
+            return res.status(400).json({
+                success : false,
+            })
+        });
+
+
+
+
 }

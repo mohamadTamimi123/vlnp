@@ -9,8 +9,7 @@ import bcrypt from "bcrypt";
 
 const panel = express.Router();
 
-
- const actiate  = async( req , res) => {
+const actiate  = async( req , res) => {
     try {
         console.log(req.params.id)
         const user = await User.findOne({
