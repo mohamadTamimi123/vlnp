@@ -11,18 +11,17 @@ export const tamdidConfig = async (req , res) => {
     const config_uid =  req.body.uid
 
     const config_email = req.body.email
-
-
-
     const pl = req.body.plan
 
-    if (!pl){
+    if (!config_email || !config_uid || !pl) {
         return res.status(400).json({
             success : false ,
             data : "bad request" ,
             delete : '!pl'
         })
     }
+
+
     const state = {
         amount : "" ,
         totalGig: ""
@@ -65,7 +64,6 @@ export const tamdidConfig = async (req , res) => {
         })
     }
 
-    const confi = await Config.findOne({"where" : {email : userEmail}});
 
 
 
@@ -77,11 +75,7 @@ export const tamdidConfig = async (req , res) => {
     const usr = await User.findOne({"where" : {email : email} , include : Wallet})
 
 
-    if (parseInt(confi.user_id) === parseInt(id)){
-        return res.status(404).json({
-            success : false
-        })
-    }
+
 
     const wallet = await Wallet.findOne({"where" : {user_id : id}})
 
@@ -92,6 +86,15 @@ export const tamdidConfig = async (req , res) => {
             success : false
         })
     }
+    const confi = await Config.findOne({"where" : {email : config_email}});
+
+    if (!confi || parseInt(confi.user_id) !== parseInt(usr.id) ){
+        return res.status(400).json({
+            success : false ,
+            delete : '!confi'
+        })
+    }
+
 
 
     if (state.amount > wallet.wallet){
