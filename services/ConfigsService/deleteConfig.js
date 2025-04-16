@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
 import {Config, User} from "../../models.js";
+import axios from "axios";
+import {getToken} from "./controller.js";
 
 
 export const deleteConfig = async (req , res) => {
@@ -26,41 +28,61 @@ export const deleteConfig = async (req , res) => {
     const uuid = req.body.uuid
     const config_email = req.body.email
 
-    const config = await Config.findOne({
+    const confus = await Config.findOne({
         "where" : { "email" : config_email }
     })
-    if (parseInt(config.user_id)  === parseInt(id) ){
+
+
+    if (parseInt(confus.user_id)  !== parseInt(id) ){
         return  res.status(404).json({
             success : false
         })
     }
 
     try {
-        config.delete()
+
 
         const inboundId = 1
-        const uuid = ""
-
-        let config = {
+        const uuid = confus.uuid
+        const token = await getToken()
+        let configData = {
             method: 'post',
             maxBodyLength: Infinity,
             url: `${process.env.PANEL_URI}/panel/api/inbounds/${inboundId}/delClient/${uuid}`,
             headers: {
-                'Accept': 'application/json'
+                'Accept': 'application/json' ,
+                'Cookie': token
             }
         };
 
-        axios.request(config)
+        axios.request(configData)
             .then((response) => {
-                console.log(JSON.stringify(response.data));
+
+
+                if (response.data["success"]){
+                    // console.log(JSON.stringify(response.data));
+                    confus.destroy()
+                }
+
             })
             .catch((error) => {
                 console.log(error);
+                return res.status(400).json({
+                    success : false
+                })
             });
 
 
-    } catch (e) {
+        return res.status(200).json({
+            success : true
+        })
 
+
+    } catch (e) {
+        console.log(e)
+        return res.status(400).json({
+            success : false
+        })
     }
 
 }

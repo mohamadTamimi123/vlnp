@@ -5,6 +5,8 @@ import axios from "axios";
 
 export const createNewConfigFromPlans = async (req , res) => {
 
+    console.log("start")
+
     const plans = {
         plan_one : {amount:49000 , totalGB:30} ,
         plan_two: {amount: 79000 , totalGB: 50},
