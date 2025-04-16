@@ -19,7 +19,8 @@ export const tamdidConfig = async (req , res) => {
     if (!pl){
         return res.status(400).json({
             success : false ,
-            data : "bad request"
+            data : "bad request" ,
+            delete : '!pl'
         })
     }
     const state = {
@@ -64,6 +65,7 @@ export const tamdidConfig = async (req , res) => {
         })
     }
 
+    const confi = await Config.findOne({"where" : {email : userEmail}});
 
 
 
@@ -73,6 +75,13 @@ export const tamdidConfig = async (req , res) => {
 
     const { id , email} = decoded.user
     const usr = await User.findOne({"where" : {email : email} , include : Wallet})
+
+
+    if (parseInt(confi.user_id) === parseInt(id)){
+        return res.status(404).json({
+            success : false
+        })
+    }
 
     const wallet = await Wallet.findOne({"where" : {user_id : id}})
 
@@ -151,7 +160,7 @@ export const tamdidConfig = async (req , res) => {
         },
         data : data
     };
-    const confi = await Config.findOne({"where" : {email : userEmail}});
+
 
     axios.request(config)
         .then((response) => {

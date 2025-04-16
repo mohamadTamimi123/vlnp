@@ -7,6 +7,7 @@ import {tamdidConfig} from "./tamdidController.js";
 import {createNewConfigFromPlans} from "./newConfigPlanMood.js";
 
 import {getConfigByEmail, getConfigList} from "./getConfigByEmail.js";
+import {deleteConfig} from "./deleteConfig.js";
 
 
 
@@ -23,6 +24,7 @@ configs.get('/list' ,  getConfigList)
 
 
 configs.post('/get' , getConfigByEmail)
+configs.delete('/delete' , deleteConfig)
 
 
 

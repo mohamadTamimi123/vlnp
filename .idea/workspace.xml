@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51ec9d63-765d-4c08-b77d-33a0f0536254" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/services/ConfigsService/getConfigByEmail.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/ConfigsService/newConfigPlanMood.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/ConfigsService/tamdidController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/ConfigsService/controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/ConfigsService/controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/ConfigsService/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/ConfigsService/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/PanelService/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/PanelService/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/ConfigsService/tamdidController.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/ConfigsService/tamdidController.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +28,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://mohamadTamimi123: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@github.com/mohamadTamimi123/vlnp.git/&quot;,
+    &quot;url&quot;: &quot;https://mohamadTamimi123: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@github.com/mohamadTamimi123/vlnp.git&quot;,
     &quot;accountId&quot;: &quot;205af62d-eb5c-4386-a189-2bd3134b6bed&quot;
   }
 }</component>
@@ -119,7 +115,10 @@
       <workItem from="1744510437704" duration="3073000" />
       <workItem from="1744513917729" duration="321000" />
       <workItem from="1744525766549" duration="3808000" />
-      <workItem from="1744587659851" duration="10602000" />
+      <workItem from="1744587659851" duration="12341000" />
+      <workItem from="1744723672070" duration="2237000" />
+      <workItem from="1744753197107" duration="193000" />
+      <workItem from="1744761748766" duration="1565000" />
     </task>
     <servers />
   </component>
