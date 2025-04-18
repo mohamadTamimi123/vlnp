@@ -38,16 +38,13 @@ const activePanel = [
 
 const newPanel = async (req , res) => {
 
-    console.log(req.body)
+
 
     const t = await sequelize.transaction();
 
     try {
-        const salt = bcrypt.genSaltSync(10);
-        const password = bcrypt.hashSync(req.body.password, salt)
 
-
-        console.log(salt)
+        const password = bcrypt.hashSync(req.body.password, process.env.JWT_SECRET)
 
         const user = await User.create(
             {
@@ -58,16 +55,10 @@ const newPanel = async (req , res) => {
             { transaction: t },
         );
 
-
-
-        console.log(user)
-
-
-        // todo
         await Wallet.create({
             user_id : user.id ,
             wallet : req.body.wallet
-        })
+        }, { transaction: t },)
 
         await t.commit();
     } catch (error) {
@@ -75,14 +66,10 @@ const newPanel = async (req , res) => {
         console.log(error)
         await t.rollback();
         return res.status(400).json({
-            success : false
+            success : false ,
+            error : "check console!!!"
         })
     }
-
-
-
-
-
 
     return res.json({
         success :true
@@ -98,11 +85,19 @@ export const isAdminMiddleware = async (req , res , next) =>{
             success : false
         })
     }
-    var decoded = jwt.verify(head, String(process.env.JWT_SECRET));
+
+    try {
+        var decoded = jwt.verify(head, String(process.env.JWT_SECRET));
+    }catch (e) {
+        return res.status(401).json({
+            success : false
+        })
+    }
+
     const {id , email} = (decoded.user)
 
-    console.log(id)
-    console.log(email)
+    // console.log(id)
+    // console.log(email)
     const user = await Admin.findOne({where:{"email" : email}})
     console.log(user)
 
@@ -117,7 +112,6 @@ export const isAdminMiddleware = async (req , res , next) =>{
     console.log(email)
 
 }
-
 
 const deletePanel = async (req , res) =>{
 
@@ -145,11 +139,8 @@ const deletePanel = async (req , res) =>{
 }
 
 
-
 panel.post('/new-panel', isAdminMiddleware , newPanel);
-
 panel.get('/list' ,isAdminMiddleware , allPanel)
-
 panel.delete('/delete/:id', deletePanel)
 panel.get('/activate/:id', activePanel)
 

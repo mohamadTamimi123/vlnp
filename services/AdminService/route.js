@@ -96,7 +96,7 @@ async  function chP(req , res){
 
     try {
         const salt = bcrypt.genSaltSync(10);
-        const passwordHash = bcrypt.hashSync(newPassword, salt)
+        const passwordHash = bcrypt.hashSync(newPassword, process.env.JWT_SECRET)
 
         user.password = passwordHash
         await user.save()

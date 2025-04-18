@@ -104,7 +104,7 @@ async function newConfig(req , res){
 
     const randomUUID = generateRandomUUID();
 
-    // vless://95e4e7bb-7796-47e7-e8a7-f4055194f776@3.249.109.246:54579?type=tcp&security=none#hello
+
     let data = JSON.stringify({
         "id": 1,
         "settings": JSON.stringify({
@@ -233,8 +233,6 @@ export async function getToken(){
         'password':  process.env.PANEL_PASSWORD,
     });
 
-    // console.log(data1);
-    // return null
 
 
 
@@ -256,13 +254,10 @@ export async function getToken(){
 
     try {
         const response = await axios.request(config1); // ارسال درخواست
-
-
-
         token = response.headers['set-cookie'][0];
     } catch (error) {
         console.error('Error fetching token:', error);
-
+        // await callToDeveloper()
         return null;
     }
 

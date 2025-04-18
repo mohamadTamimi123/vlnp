@@ -2,53 +2,48 @@ import jwt from "jsonwebtoken";
 import {Config, User, Wallet} from "../../models.js";
 import {checkDuplicateEmailError, generateRandomUUID, getToken} from "./controller.js";
 import axios from "axios";
+import {callToDeveloper} from "../../mailHandller.js";
 
-export const createNewConfigFromPlans = async (req , res) => {
+export const createNewConfigFromPlans = async (req, res) => {
 
-    console.log("start")
 
     const plans = {
-        plan_one : {amount:49000 , totalGB:30} ,
-        plan_two: {amount: 79000 , totalGB: 50},
-        plan_tree :{amount : 109000 , totalGB: 70},
-        plan_four : {amount :149000 , totalGB: 100}
+        plan_one: {amount: 49000, totalGB: 30},
+        plan_two: {amount: 79000, totalGB: 50},
+        plan_tree: {amount: 109000, totalGB: 70},
+        plan_four: {amount: 149000, totalGB: 100}
     }
 
     const userEmail = req.body.email
 
-
     const pl = req.body.plan
 
     const state = {
-        amount : "" ,
+        amount: "",
         totalGig: ""
     }
 
-
-
-    console.log(pl)
-
-    if (!pl){
+    if (!pl) {
         return res.status(400).json({
-            success : false ,
-            data : "bad request"
+            success: false,
+            data: "bad request"
         })
     }
-    switch (pl){
+    switch (pl) {
 
 
         case 'plan_two':
-            return  plans['plan_two']
+            return plans['plan_two']
 
             break
 
         case 'plan_tree':
-            return  plans['plan_tree']
+            return plans['plan_tree']
 
             break
 
         case 'plan_four':
-            return  plans['plan_tree']
+            return plans['plan_tree']
             break
 
         default :
@@ -64,52 +59,60 @@ export const createNewConfigFromPlans = async (req , res) => {
 
     if (!head) {
         return res.status(401).json({
-            success : false
+            success: false
         })
     }
 
-    var decoded = jwt.verify(head, String(process.env.JWT_SECRET));
-
-
-
-
-    const { id , email} = decoded.user
-    const usr = await User.findOne({"where" : {email : email} , include : Wallet})
-
-    const wallet = await Wallet.findOne({"where" : {user_id : id}})
-
-
-
-    if (!usr || !usr.status){
+    try {
+        var decoded = jwt.verify(head, String(process.env.JWT_SECRET));
+    } catch (e) {
         return res.status(401).json({
-            success : false
+            success: false
         })
     }
 
 
-    if (state.amount > wallet.wallet){
+    const {id, email} = decoded.user
+    const usr = await User.findOne({"where": {email: email}, include: Wallet})
+
+    const wallet = await Wallet.findOne({"where": {user_id: id}})
+
+    if (!usr || !usr.status) {
+        return res.status(401).json({
+            success: false
+        })
+    }
+
+
+    if (state.amount > wallet.wallet) {
         return res.status(400).json({
-            success : false ,
-            data : "Your wallet balance is low.",
-            follow : "wallet"
+            success: false,
+            data: "Your wallet balance is low.",
+            follow: "wallet"
         })
     }
+
 
 
 
     const token = await getToken()
-
     if (!token){
-        try {
-            // callToDeveloper()
-        } catch (error) {
-            // callToDeveloper(error.message); // ارسال ایمیل خطا
-        }
 
-        return res.status(401).json({
-            success : false
+
+
+        console.log("seerverr errorrr!")
+        console.log("********************")
+        console.log("seerverr errorrr!")
+        console.log("********************")
+        console.log("seerverr errorrr!")
+        return res.status(404).json({
+            success: false
         })
+
     }
+
+
+
 
     // userHasEarlyConfig(userEmail , token)
 
@@ -117,16 +120,9 @@ export const createNewConfigFromPlans = async (req , res) => {
     const randomUUID = generateRandomUUID();
 
 
-
-
-
-
     const now = new Date();
     const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
     const timestamp = Math.floor(nextMonth.getTime() / 1000);
-
-
-
 
 
 // محاسبه تاریخ یک ماه بعد
@@ -148,7 +144,7 @@ export const createNewConfigFromPlans = async (req , res) => {
                 {
                     "id": randomUUID,
                     "alterId": 0,
-                    "email":userEmail,
+                    "email": userEmail,
                     "limitIp": 2,
                     "totalGB": state.totalGig * 1073741824,
                     "expiryTime": timestampMilliseconds,
@@ -163,8 +159,6 @@ export const createNewConfigFromPlans = async (req , res) => {
     console.log(data)
 
 
-
-
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -174,26 +168,26 @@ export const createNewConfigFromPlans = async (req , res) => {
             'Content-Type': 'application/json',
             'Cookie': token
         },
-        data : data
+        data: data
     };
 
 
     axios.request(config)
         .then((response) => {
 
-            if (!response.data["success"]){
-                if ( checkDuplicateEmailError(response.data["msg"]) ){
+            if (!response.data["success"]) {
+                if (checkDuplicateEmailError(response.data["msg"])) {
                     return res.status(400).json({
-                        success : false ,
-                        data: response.data["msg"] ,
-                        follow : "update_config"
+                        success: false,
+                        data: response.data["msg"],
+                        follow: "update_config"
                     })
-                }else {
+                } else {
                     // callToDeveloper(response)
                     return res.status(400).json({
-                        success : false ,
-                        data: response.data["msg"] ,
-                        follow : "server_error"
+                        success: false,
+                        data: response.data["msg"],
+                        follow: "server_error"
                     })
                 }
 
@@ -201,25 +195,20 @@ export const createNewConfigFromPlans = async (req , res) => {
             } else {
 
 
-
                 Config.create({
-                    user_id : usr.id ,
-                    email : userEmail ,
-                    uuid : randomUUID
+                    user_id: usr.id,
+                    email: userEmail,
+                    uuid: randomUUID
                 })
 
-
-
-
-                console.log(state.amount )
 
                 wallet.wallet = wallet.wallet - state.amount
                 wallet.save()
 
                 return res.status(200).json({
-                    success : true ,
-                    data: response.data["msg"] ,
-                    config : `vless://${randomUUID}@${process.env.INBOUND_ADDRESS}?type=tcp&security=none#${userEmail}`
+                    success: true,
+                    data: response.data["msg"],
+                    config: `${process.env.INBOUND_PROTOCOL}://${randomUUID}@${process.env.INBOUND_ADDRESS}?${process.env.INBOUND_PATH}#${userEmail}`
                 })
             }
 
@@ -227,15 +216,6 @@ export const createNewConfigFromPlans = async (req , res) => {
         .catch((error) => {
             console.log(error);
         });
-
-
-
-
-
-
-
-
-
 
 
     // return res.status(200).json({

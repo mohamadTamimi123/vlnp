@@ -9,6 +9,7 @@ import {wallet} from "./services/WalletService/route.js";
 import {admin} from "./services/AdminService/route.js";
 import {seed} from "./develop/seedRoute.js";
 import {configs} from "./services/ConfigsService/route.js";
+import nodemailer from "nodemailer";
 
 
 
@@ -41,5 +42,9 @@ app.use('/api/v1/panel' , panel)
 app.use('/api/v1/wallet' , wallet)
 app.use("/api/v1/configs" , configs)
 // app.use('/api/v1' , googleRoute)
+
+
+
+
 
 export default app;

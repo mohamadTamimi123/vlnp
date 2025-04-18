@@ -1,7 +1,18 @@
 import nodemailer from "nodemailer";
 
 
-export function callToDeveloper(error) {
+
+export var transport = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+
+export async function callToDeveloper(error) {
     try {
 
         const developerEmails = process.env.DEVELOPER_EMAILS.split(',');
@@ -17,32 +28,18 @@ export function callToDeveloper(error) {
         }
 
 
-        const transporter = nodemailer.createTransport({
-            host: emailHost,
-            port: emailPort,
-            secure: false, // true for 465, false for other ports
-            auth: {
-                user: emailUser,
-                pass: emailPass,
-            },
+         const info = await transport.sendMail({
+                from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', // sender address
+                to: "bar@example.com, baz@example.com", // list of receivers
+                subject: "Hello ✔", // Subject line
+                text: "Hello world?", // plain text body
+                html: "<b>Hello world?</b>", // html body
         });
 
-        const mailOptions = {
-            from: emailUser,
-            to: developerEmails,
-            subject: 'خطا در برنامه',
-            text: `پیام خطا:\n\n${error}`,
-        };
-
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error('Error sending email:', error);
-            } else {
-                console.log('Email sent:', info.response);
-            }
-        });
+        console.log("Message sent: %s", info.messageId);
+            // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
     }catch (e) {
+        console.log(e)
         console.log("error on send email to admins")
     }
 

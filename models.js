@@ -7,7 +7,10 @@ import configModel from "./db/models/config.js";
 
 
 
-const sequelize = new Sequelize('sqlite::memory:')
+const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: '/home/mohamadmahdytamimipoor/vlpn_panel/database.sqlite' // مسیر دائمی دیتابیس
+})
 const User = userModel(sequelize)
 const Wallet = walletModel(sequelize)
 const Transaction = transactionModel(sequelize)
