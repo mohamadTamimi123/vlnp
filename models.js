@@ -9,7 +9,7 @@ import configModel from "./db/models/config.js";
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: '/home/mohamadmahdytamimipoor/vlpn_panel/database.sqlite' // مسیر دائمی دیتابیس
+    storage: process.env.SQL_PATH
 })
 const User = userModel(sequelize)
 const Wallet = walletModel(sequelize)
