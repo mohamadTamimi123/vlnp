@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import {Config, User, Wallet} from "../../models.js";
 import axios from "axios";
-import {getToken} from "./controller";
+import {getToken} from "./controller.js";
 
 export const getConfigList = async (req , res) => {
 
