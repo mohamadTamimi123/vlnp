@@ -24,7 +24,11 @@ export default function(sequelize ){
       name: 'user_id',
     }
   });
-  wallet.belongsTo(User);
+  wallet.belongsTo(User ,{
+    foreignKey: {
+      name: 'user_id',
+    }
+  });
 
   return wallet
 
