@@ -7,10 +7,16 @@ import configModel from "./db/models/config.js";
 
 
 
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: process.env.SQL_PATH
-})
+// const sequelize = new Sequelize({
+//     dialect: 'sqlite',
+//     storage: process.env.SQL_PATH
+// })
+
+const sequelize = new Sequelize(process.env.POSTGRES_DB, process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
+    host: process.env.POSTGRES_HOST,
+    dialect: 'postgres'  /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */
+});
+
 const User = userModel(sequelize)
 const Wallet = walletModel(sequelize)
 const Transaction = transactionModel(sequelize)
