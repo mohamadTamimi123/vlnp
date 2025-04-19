@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import {Config, User, Wallet} from "../../models.js";
 import axios from "axios";
+import {getToken} from "./controller";
 
 export const getConfigList = async (req , res) => {
 
@@ -73,6 +74,22 @@ export async function getConfigByEmail(req , res){
         })
     }
 
+    const token = await getToken()
+    if (!token){
+
+
+
+        console.log("seerverr errorrr!")
+        console.log("********************")
+        console.log("seerverr errorrr!")
+        console.log("********************")
+        console.log("seerverr errorrr!")
+        return res.status(404).json({
+            success: false
+        })
+
+    }
+
 
 
     let config = {
@@ -81,7 +98,7 @@ export async function getConfigByEmail(req , res){
         url: `${process.env.PANEL_URI}/panel/api/inbounds/getClientTraffics/${userEmail}`,
         headers: {
             'Accept': 'application/json',
-            'Cookie': '3x-ui=MTc0NDUyNjEzMHxEWDhFQVFMX2dBQUJFQUVRQUFCMV80QUFBUVp6ZEhKcGJtY01EQUFLVEU5SFNVNWZWVk5GVWhoNExYVnBMMlJoZEdGaVlYTmxMMjF2WkdWc0xsVnpaWExfZ1FNQkFRUlZjMlZ5QWYtQ0FBRUVBUUpKWkFFRUFBRUlWWE5sY201aGJXVUJEQUFCQ0ZCaGMzTjNiM0prQVF3QUFRdE1iMmRwYmxObFkzSmxkQUVNQUFBQUh2LUNHd0VDQVFwM1owWjZRa1ZFUVZaUUFRcGFaa3RSV1hnNFdGZzBBQT09fHXdlbh9Lx6xPC_xc8-nMTpeCN2_hF32C69AN0SlS5nV'
+            'Cookie': token
         }
     };
 
