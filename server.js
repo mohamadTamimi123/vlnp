@@ -18,6 +18,10 @@ async function main() {
 
     try {
 
+        console.log(process.env.POSTGRES_DB)
+        console.log(process.env.POSTGRES_USER)
+        console.log(process.env.POSTGRES_PASSWORD)
+        console.log(process.env.POSTGRES_HOST)
         await sequelize.sync({ force: false } , )
 
         app.listen(process.env.PORT, () => {
