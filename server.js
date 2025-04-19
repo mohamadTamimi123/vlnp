@@ -6,6 +6,16 @@ import nodemailer from "nodemailer";
 
 
 async function main() {
+    //
+    // try {
+    //     await sequelize.authenticate();
+    //     console.log('Connection has been established successfully.');
+    // } catch (error) {
+    //     console.error('Unable to connect to the database:', error);
+    // }
+
+
+
     try {
 
         await sequelize.sync({ force: false } , )
@@ -14,8 +24,12 @@ async function main() {
             console.log(`Example app listening on port ${process.env.PORT}`);
         });
     } catch (err) {
-        // console.log(err);
+        console.log(err);
     }
+
+
+
+
 }
 
 
