@@ -33,26 +33,26 @@ export const createNewConfigFromPlans = async (req, res) => {
 
 
         case 'plan_two':
-            state.amount = 79000
-            state.totalGig = 50
-
-            break
-
-        case 'plan_tree':
-            state.amount = 109000
+            state.amount = 68000
             state.totalGig = 70
 
             break
 
-        case 'plan_four':
-            state.amount = 149000
+        case 'plan_tree':
+            state.amount = 99000
             state.totalGig = 100
+
+            break
+
+        case 'plan_four':
+            state.amount = 129000
+            state.totalGig = 130
             break
 
         default :
 
             state.amount = 47000
-            state.totalGig = 30
+            state.totalGig = 50
 
 
     }
